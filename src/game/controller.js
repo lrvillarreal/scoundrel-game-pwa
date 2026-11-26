@@ -2,8 +2,6 @@
 import E from './engine.js';
 import Store from './storage.js';
 export function mountGame(root, assetBase = '/') {
-  'use strict';
-
   const $ = id => root.querySelector('#' + id);
   const subscriptions = new AbortController();
   // All listeners, including keyboard and image handlers, belong to this mount.

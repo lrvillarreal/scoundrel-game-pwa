@@ -1,5 +1,15 @@
 /* Scoundrel — Complete Stylesheet */
 
+.offline-status {
+  margin: 0 auto 1.5rem;
+  padding: 0 1rem;
+  color: var(--muted);
+  font-size: .8rem;
+  text-align: center;
+}
+
+.offline-status a { color: var(--accent); }
+
 :root {
   color-scheme: dark;
   --bg: #10191e;

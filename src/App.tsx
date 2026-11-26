@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import markup from './game/markup.html?raw'
 import { mountGame } from './game/controller.js'
+import OfflineStatus from './OfflineStatus'
 
 export default function App() {
   const container = useRef<HTMLDivElement>(null)
@@ -19,5 +20,5 @@ export default function App() {
     }
   }, [])
 
-  return <div ref={container} className="scoundrel-game" />
+  return <><div ref={container} className="scoundrel-game" /><OfflineStatus /></>
 }
