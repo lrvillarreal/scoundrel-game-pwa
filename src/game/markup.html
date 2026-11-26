@@ -1,0 +1,136 @@
+<a class="skip-link" href="#roomSection">Skip to the cards</a>
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="brand-group">
+        <div class="brand-mark" aria-hidden="true">♠</div>
+        <div>
+          <div class="eyebrow">A ONE-PLAYER CARD DUNGEON</div>
+          <h1>Scoundrel<span class="brand-dot">.</span></h1>
+        </div>
+      </div>
+      <nav class="header-actions" aria-label="Game controls">
+        <button type="button" id="helpBtn" class="button button-quiet"><span aria-hidden="true">?</span> <span>How to play</span></button>
+        <button type="button" id="restartBtn" class="button button-quiet" title="Replay the same shuffled dungeon">↻ <span>Restart</span></button>
+        <button type="button" id="newGameBtn" class="button button-primary"><span aria-hidden="true">✦</span> New game</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hud" aria-label="Player status">
+        <div class="hud-tile health-tile">
+          <div class="tile-topline"><span class="tile-label">YOUR HEALTH</span><span class="heart-emblem" aria-hidden="true">♥</span></div>
+          <div class="health-big"><strong id="healthValue">20</strong><span>/ 20 HP</span></div>
+          <div id="healthBar" class="health-track" role="progressbar" aria-label="Health" aria-valuemin="0" aria-valuemax="20" aria-valuenow="20"><span id="healthFill" class="health-fill"></span></div>
+        </div>
+        <div class="hud-tile weapon-tile">
+          <div class="tile-topline"><span class="tile-label">EQUIPPED WEAPON</span><span class="diamond-emblem" aria-hidden="true">♦</span></div>
+          <div class="weapon-display"><strong id="weaponValue">Unarmed</strong><span id="weaponSub" class="subtle">Fight with your fists</span></div>
+          <div class="weapon-footer">Last defeated <strong id="lastDefeated">—</strong><span class="mid-dot">·</span> Stacked <strong id="stackCount">0</strong></div>
+        </div>
+        <div class="hud-tile stats-tile">
+          <div class="tile-topline"><span class="tile-label">THE EXPEDITION</span><span aria-hidden="true" class="stats-emblem">✧</span></div>
+          <div class="stats-grid">
+            <div><span class="stat-number" id="turnValue">01</span><span class="stat-label">Room</span></div>
+            <div><span class="stat-number" id="deckValue">40</span><span class="stat-label">Deck</span></div>
+            <div><span class="stat-number" id="discardValue">0</span><span class="stat-label">Discard</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="room-section" id="roomSection" aria-labelledby="roomHeading">
+        <div class="section-topline">
+          <div>
+            <div class="eyebrow accent-eyebrow">THE DUNGEON</div>
+            <h2 id="roomHeading">Room <span id="roomHeadingNumber">01</span></h2>
+          </div>
+          <div class="room-status"><span class="status-pip" aria-hidden="true"></span><span id="progressCount">0 of 44 cards resolved</span></div>
+        </div>
+        <div class="room-intro">
+          <p id="roomInstruction">Choose 3 cards in any order. The fourth travels with you.</p>
+          <span class="choice-count" id="choiceCount">0 / 3 chosen</span>
+        </div>
+        <div id="roomGrid" class="room-grid" role="group" aria-label="Cards in the current dungeon room"></div>
+        <div class="room-controls">
+          <div class="avoid-explainer"><span aria-hidden="true">◇</span><span id="avoidHint">Don't like this room? Skip all four cards.</span></div>
+          <button id="avoidBtn" class="button button-outline" type="button">Avoid this room <span aria-hidden="true">↗</span></button>
+        </div>
+        <div id="srStatus" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+      </section>
+
+      <section class="bottom-grid" aria-label="Game information">
+        <div class="log-panel">
+          <div class="panel-heading"><div><span class="eyebrow">YOUR STORY SO FAR</span><h2>Adventure log</h2></div><span class="log-signal" aria-hidden="true">● LIVE</span></div>
+          <ol id="actionLog" class="log-list" role="log" aria-label="Game actions" aria-live="polite" aria-relevant="additions" aria-atomic="false"></ol>
+        </div>
+        <aside class="quick-guide" aria-labelledby="guideHeading">
+          <div class="panel-heading"><div><span class="eyebrow">A LITTLE HELP</span><h2 id="guideHeading">Quick guide</h2></div></div>
+          <div class="guide-item"><span class="guide-symbol monster-color">♠ ♣</span><div><strong>Monsters</strong><p>Fight with your weapon or take the full damage bare-handed.</p></div></div>
+          <div class="guide-item"><span class="guide-symbol weapon-color">♦</span><div><strong>Weapons</strong><p>Reduce damage. Each clean win limits the next weapon target.</p></div></div>
+          <div class="guide-item"><span class="guide-symbol potion-color">♥</span><div><strong>Potions</strong><p>Restore health (max 20). Only the first potion each room works.</p></div></div>
+          <div class="guide-foot">Survive the deck. Leave no cards behind.</div>
+        </aside>
+      </section>
+
+      <details class="debug-panel" id="debugPanel">
+        <summary>Developer tools <span class="debug-subtext">seeded runs · remaining deck</span></summary>
+        <div class="debug-content">
+          <label for="seedInput">Optional shuffle seed</label>
+          <div class="seed-row"><input id="seedInput" type="text" maxlength="60" placeholder="e.g. portfolio-demo"><button id="seedBtn" class="button button-outline" type="button">Start seeded game</button></div>
+          <p>Seed: <code id="seedInfo">random</code>. Card order below is for debugging, not regular play.</p>
+          <pre id="deckDebug" aria-label="Remaining draw-pile order"></pre>
+        </div>
+      </details>
+    </main>
+    <footer class="site-footer"><span>♠ SC<span class="brand-dot">.</span> — 44 cards. 20 health. One way out.</span><span>Made for the love of small, clever games.</span></footer>
+  </div>
+
+  <dialog id="rulesDialog" class="dialog rules-dialog" aria-labelledby="rulesTitle">
+    <div class="dialog-body">
+      <div class="dialog-top"><span class="eyebrow">THE RULEBOOK</span><button type="button" class="icon-close" data-close="rulesDialog" aria-label="Close rules">×</button></div>
+      <h2 id="rulesTitle">How to survive</h2>
+      <p class="dialog-lead">Your dungeon is 44 cards: 26 monsters (♣/♠ 2–A), 9 weapons (♦ 2–10), and 9 potions (♥ 2–10). You start at 20 HP.</p>
+      <div class="rule-chapter"><span class="chapter-number">01</span><div><h3>Explore a room</h3><p>Four cards appear. Choose <strong>any three</strong> in any order; the untouched card carries into the next room. In the final short room, resolve every card.</p></div></div>
+      <div class="rule-chapter"><span class="chapter-number">02</span><div><h3>Or avoid it</h3><p>Before choosing a card, send the entire four-card room to the bottom of the deck in the same order. <strong>You can't avoid two rooms in a row.</strong></p></div></div>
+      <div class="rule-chapter"><span class="chapter-number">03</span><div><h3>Fight a monster</h3><p>Bare hands cost the monster's full value in HP. A legal weapon reduces damage to <strong>max(0, monster − weapon)</strong>. You may always fight bare-handed instead.</p></div></div>
+      <div class="example-box"><strong>Weapon example</strong><p>♦8 beats ♠7 for 0 damage, so 7 becomes its last defeated value. You can then use ♦8 against ♣5, but not ♠9. A ♦8 versus ♠10 would deal 2 damage and would not update the last defeated value.</p></div>
+      <div class="rule-chapter"><span class="chapter-number">04</span><div><h3>Find gear &amp; medicine</h3><p>Equipping a diamond discards your old weapon and its stacked monsters, and resets the limit. A heart heals up to 20 HP. <strong>Only one potion works per room</strong>, including when already at full health.</p></div></div>
+      <div class="rule-chapter"><span class="chapter-number">05</span><div><h3>Win or lose</h3><p>Resolve all cards to win and score your remaining HP. Reach 0 HP and lose: your score is negative the total value of monsters still unresolved in the room and deck.</p></div></div>
+      <div class="keyboard-note">Keyboard: Tab and Enter/Space to choose cards; arrow keys move between cards; Escape closes dialogs. The game saves automatically in this browser.</div>
+      <button type="button" class="button button-primary dialog-full-button" data-close="rulesDialog">Got it — enter the dungeon</button>
+    </div>
+  </dialog>
+
+  <dialog id="battleDialog" class="dialog battle-dialog" aria-labelledby="battleTitle">
+    <div class="dialog-body">
+      <div class="dialog-top"><span class="eyebrow">ENCOUNTER</span><button type="button" class="icon-close" data-close="battleDialog" aria-label="Cancel combat">×</button></div>
+      <div id="battleBadge" class="battle-symbol" aria-hidden="true">♠</div>
+      <h2 id="battleTitle">A monster appears</h2>
+      <p class="dialog-lead battle-lead">Choose how to fight. The monster is removed from this room either way.</p>
+      <div class="battle-options">
+        <button id="useWeaponBtn" type="button" class="battle-choice"><strong>⚔ Use weapon</strong><span id="weaponFightDescription">Take 0 damage</span></button>
+        <button id="useBareBtn" type="button" class="battle-choice"><strong>✊ Fight bare-handed</strong><span id="bareFightDescription">Take 7 damage</span></button>
+      </div>
+      <p id="battleHint" class="dialog-hint"></p>
+    </div>
+  </dialog>
+
+  <dialog id="confirmDialog" class="dialog confirm-dialog" aria-labelledby="confirmTitle">
+    <div class="dialog-body">
+      <div class="dialog-top"><span class="eyebrow">ARE YOU SURE?</span><button type="button" class="icon-close" data-close="confirmDialog" aria-label="Cancel">×</button></div>
+      <h2 id="confirmTitle">Leave this dungeon?</h2>
+      <p id="confirmText" class="dialog-lead">Your current progress will be replaced.</p>
+      <div class="dialog-actions"><button type="button" class="button button-quiet" data-close="confirmDialog">Keep playing</button><button type="button" class="button button-primary" id="confirmActionBtn">Continue</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="resultDialog" class="dialog result-dialog" aria-labelledby="resultTitle">
+    <div class="dialog-body result-body">
+      <div class="result-mark" id="resultMark" aria-hidden="true">✦</div>
+      <span class="eyebrow" id="resultEyebrow">THE DUNGEON IS CLEARED</span>
+      <h2 id="resultTitle">You survived.</h2>
+      <p id="resultCopy" class="dialog-lead">You made it through all 44 cards.</p>
+      <div class="result-score"><span>FINAL SCORE</span><strong id="resultScore">+20</strong></div>
+      <div class="dialog-actions"><button type="button" class="button button-quiet" id="resultRestartBtn">Replay same deck</button><button type="button" class="button button-primary" id="resultNewBtn">New expedition</button></div>
+    </div>
+  </dialog>

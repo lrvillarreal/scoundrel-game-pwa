@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Verified copies generated from the pinned source artwork
+public/Assets/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
