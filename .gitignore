@@ -10,7 +10,13 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+playwright-report/
+test-results/
 *.local
+*.tsbuildinfo
+
+# Verified copies generated from the pinned source artwork
+public/Assets/
 
 # Editor directories and files
 .vscode/*
