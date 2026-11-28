@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 export default function OfflineStatus() {
   const [ready, setReady] = useState(false)
   const [failed, setFailed] = useState(false)
-  const [online, setOnline] = useState(navigator.onLine)
   const [update, setUpdate] = useState(false)
 
   useEffect(() => {
@@ -11,8 +10,6 @@ export default function OfflineStatus() {
     const listeners = new AbortController()
     let disposed = false
     const signal = listeners.signal
-    window.addEventListener('online', () => setOnline(true), { signal })
-    window.addEventListener('offline', () => setOnline(false), { signal })
 
     async function register() {
       try {
@@ -62,12 +59,18 @@ export default function OfflineStatus() {
   if (!import.meta.env.PROD) return null
   const supported = 'serviceWorker' in navigator
   const message = !supported ? 'Offline play is unavailable in this browser.'
-    : failed ? 'Offline files are incomplete or outdated. Connect and repair offline play.'
+    : failed ? 'Offline setup failed. Reconnect and try repairing.'
     : !ready ? 'Preparing offline play…'
-    : online ? 'Ready to play offline.' : 'Playing offline. Progress saves on this device.'
+    : 'Ready to play offline'
 
   return <div className="offline-status">
-    <p role="status">{message}{update && ' Update ready. Close all game windows and reopen to update.'}</p>
-    <a href={`${import.meta.env.BASE_URL}recover.html`}>Repair offline play</a>
+    <p role="status" aria-live="polite" aria-atomic="true">
+      {ready && !failed && <span className="offline-status-dot" aria-hidden="true" />}
+      {message}
+    </p>
+    {failed && <a href={`${import.meta.env.BASE_URL}recover.html`}>Repair offline play</a>}
+    <p className="offline-update" role="status" aria-live="polite" aria-atomic="true">
+      {update && 'Update ready. Close all game windows and reopen to update.'}
+    </p>
   </div>
 }

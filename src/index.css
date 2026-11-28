@@ -1,14 +1,28 @@
 /* Scoundrel — Complete Stylesheet */
 
 .offline-status {
-  margin: 0 auto 1.5rem;
-  padding: 0 1rem;
   color: var(--muted);
-  font-size: .8rem;
+  font-size: 11px;
   text-align: center;
 }
 
-.offline-status a { color: var(--accent); }
+.offline-status p { margin: 0; }
+.offline-status a,
+.offline-troubleshooting a { color: var(--accent); }
+
+.offline-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  vertical-align: middle;
+}
+
+.offline-troubleshooting { margin: 16px 0; color: var(--muted); font-size: 13px; }
+.offline-troubleshooting summary { cursor: pointer; color: var(--accent); }
+.offline-troubleshooting p { margin: 10px 0 4px; }
 
 :root {
   color-scheme: dark;
@@ -935,9 +949,11 @@ h1 {
   margin-top: 24px;
   border-top: 1px solid var(--border);
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
-  padding: 28px 0 38px;
+  align-items: baseline;
+  gap: 8px 20px;
+  padding: 18px 0 24px;
   color: #879b9c;
   font-size: 10px;
 }
@@ -1427,6 +1443,8 @@ h1 {
     flex-direction: column;
     gap: 5px;
   }
+
+  .offline-status { text-align: left; }
 
   .dialog-body {
     padding: 22px 21px;

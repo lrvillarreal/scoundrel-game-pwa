@@ -20,5 +20,12 @@ export default function App() {
     }
   }, [])
 
-  return <><div ref={container} className="scoundrel-game" /><OfflineStatus /></>
+  return <>
+    <div ref={container} className="scoundrel-game" />
+    <footer className="site-footer app-shell">
+      <span>♠ SC<span className="brand-dot">.</span> — 44 cards. 20 health. One way out.</span>
+      <OfflineStatus />
+      <span>Made for the love of small, clever games.</span>
+    </footer>
+  </>
 }

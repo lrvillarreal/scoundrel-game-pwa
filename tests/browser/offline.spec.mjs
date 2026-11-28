@@ -8,7 +8,7 @@ test('complete app installs, reloads, plays and reopens offline with saved progr
   await expect(page).toHaveTitle('Scoundrel — Solo Card Dungeon');
   const favicon = page.locator('link[rel="icon"][type="image/svg+xml"]');
   await expect(favicon).toHaveAttribute('href', '/icons/scoundrel.svg');
-  await expect(page.getByRole('status').filter({ hasText: 'Ready to play offline.' })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'Ready to play offline' })).toBeVisible();
   await page.evaluate(() => navigator.serviceWorker.ready);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
 
@@ -22,7 +22,7 @@ test('complete app installs, reloads, plays and reopens offline with saved progr
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Scoundrel.' })).toBeVisible();
-  await expect(page.locator('.offline-status')).toContainText('Playing offline.');
+  await expect(page.locator('.offline-status')).toContainText('Ready to play offline');
   // Fetch every image, including ones that were never shown during the first visit.
   const artwork = await page.evaluate(async () => {
     const names = ['club-1', 'club-2', 'club-3', 'spade-1', 'spade-2', 'spade-3',
@@ -84,7 +84,7 @@ test('recovery replaces a previous app worker without deleting saved games or un
   await expect(page.getByRole('status')).toContainText('Ready to play offline.', { timeout: 30000 });
   await page.getByRole('link', { name: 'Return to the game' }).click();
   await expect(page).toHaveTitle('Scoundrel — Solo Card Dungeon');
-  await expect(page.locator('.offline-status')).toContainText('Ready to play offline.');
+  await expect(page.locator('.offline-status')).toContainText('Ready to play offline');
   expect(await page.evaluate(() => localStorage.getItem('unrelated-saved-data'))).toBe('preserve-me');
   expect(await page.evaluate(() => localStorage.getItem('scoundrel-dungeon-v1'))).toBe(savedGame);
   expect(await page.evaluate(() => caches.keys())).toContain('kitchen-atlas-existing-data');
@@ -97,7 +97,7 @@ test('recovery replaces a previous app worker without deleting saved games or un
 
 test('missing cached bundles return a controlled response and can be repaired', async ({ page, context }) => {
   await page.goto('/');
-  await expect(page.locator('.offline-status')).toContainText('Ready to play offline.');
+  await expect(page.locator('.offline-status')).toContainText('Ready to play offline');
   const script = await page.locator('script[type="module"]').getAttribute('src');
   await page.evaluate(async path => {
     for (const name of await caches.keys()) await (await caches.open(name)).delete(path);

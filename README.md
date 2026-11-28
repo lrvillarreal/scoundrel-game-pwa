@@ -50,7 +50,7 @@ Deploy with build command `npm run build`, output directory `dist`, over HTTPS (
 
 ## Install and play offline
 
-Open the production app online once and wait for **Ready to play offline.** The entire app and all eleven artwork files are now cached, including cards you have not encountered. Gameplay, help, seeded runs, restarting, and saved progress work without a connection, including after closing and reopening the app.
+Open the production app online once and wait for **Ready to play offline**. The entire app and all eleven artwork files are now cached, including cards you have not encountered. Gameplay, help, seeded runs, restarting, and saved progress work without a connection, including after closing and reopening the app.
 
 Use your browser's **Install app** option on desktop or Android. On iPhone/iPad, use Safari's **Share → Add to Home Screen**. Installation is optional for offline play. Browser saves and offline files belong to this device and browser; clearing site data removes them. Browsers may reclaim stored data under storage pressure.
 
@@ -61,6 +61,10 @@ Offline caching is enabled only in production builds, so `npm run dev` stays eas
 `npm test` includes service worker regressions for complete precaching, failed installations, scope isolation, and offline navigation. `npm run test:offline` builds and runs a real-browser test for offline reload, decoding all eleven images, help, gameplay, saved progress, and reopening the app. On Windows it uses installed Microsoft Edge; elsewhere install the test browser once with `npx playwright install chromium`.
 
 If another app's name or old `/assets/` bundle URLs appear, check the address and use the Scoundrel preview at `http://localhost:4178`. Service workers are shared by origin and scope, so reusing a port can display a previous project's cached HTML. `localhost` and `127.0.0.1` also have separate browser storage; use the same address every time.
+
+The footer shows a small green indicator only after verification, and offers repair when setup fails. **How to play → Offline troubleshooting** always links to recovery, including while setup is preparing or already ready.
+
+Browser tests also cover pending verification, failed checks and registration, timeouts, worker identity, repair without losing progress, keyboard navigation, live-region attributes, mobile layout with reduced motion, and an actual worker update waiting until game windows close. To run them against a published site, set `PLAYWRIGHT_BASE_URL` to its origin and run `npx playwright test`; omit the variable to use the local production preview.
 
 For missing or outdated offline files, reconnect, open `/recover.html`, and click **Repair offline files**. The independent recovery page replaces an older worker and redownloads all required files, preserving saved games and unrelated caches. If an old worker intercepts even the recovery page, load it online with **Ctrl+Shift+R** first. Recovery activates an update explicitly; normal background updates still wait until the game windows close. The ready indicator now checks the actual worker identity and the complete cache before reporting success. A missing cached file gets a controlled 503 response instead of an unhandled fetch rejection.
 
